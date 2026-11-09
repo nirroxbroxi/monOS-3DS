@@ -16,8 +16,11 @@ all: boot.firm
 boot.elf: src/main.c
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
 
-boot.firm: boot.elf
-	firmtool build $@ -e $<
+boot.bin: boot.elf
+	$(OBJCOPY) -O binary $< $@
+
+boot.firm: boot.bin
+	python3 generate_firm.py $< $@
 
 clean:
-	rm -f boot.elf boot.firm
+	rm -f boot.elf boot.bin boot.firm
