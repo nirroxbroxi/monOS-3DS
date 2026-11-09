@@ -17,11 +17,14 @@ jobs:
 
       - name: Install Python & firmtool
         run: |
-          apt-get update && apt-get install -y python3-pip
-          pip3 install firmtool --break-system-packages
+          apt-get update && apt-get install -y python3-pip python3-venv
+          python3 -m venv venv
+          ./venv/bin/pip install firmtool
 
       - name: Build FIRM
-        run: make
+        run: |
+          export PATH="$PWD/venv/bin:$PATH"
+          make
 
       - name: Upload boot.firm Artifact
         uses: actions/upload-artifact@v4
