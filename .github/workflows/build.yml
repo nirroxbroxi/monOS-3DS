@@ -15,20 +15,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python & firmtool
-        run: |
-          apt-get update && apt-get install -y python3-pip python3-venv curl
-          python3 -m venv venv
-          ./venv/bin/pip install --upgrade pip
-          curl -sSL https://github.com/ihaveamac/firmtool/archive/master.zip -o firmtool.zip
-          apt-get install -y unzip
-          unzip firmtool.zip
-          cd firmtool-master && ../venv/bin/pip install . && cd ..
-
       - name: Build FIRM
-        run: |
-          export PATH="$PWD/venv/bin:$PATH"
-          make
+        run: make
 
       - name: Upload boot.firm Artifact
         uses: actions/upload-artifact@v4
